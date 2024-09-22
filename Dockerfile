@@ -13,7 +13,9 @@ RUN apk add --no-cache \
     perl-utils \
     libgd \
     gd-dev \
-    zlib-dev
+    zlib-dev \
+    openssl-dev \
+    openssl
 
 ENV PERL_MM_USE_DEFAULT=1
 RUN cpan -T GD MIME::Parser
@@ -24,7 +26,7 @@ RUN curl -sL https://github.com/InterNetNews/inn/releases/download/${VERSION}/in
 RUN usermod -d /usr/local/news news
 
 WORKDIR /inn-${VERSION}
-RUN ./configure --with-zlib && \
+RUN ./configure --with-zlib --with-openssl && \
     make && \
     sed -i 's/#domain:/domain: news.localhost/' site/inn.conf && \
     make install
@@ -32,6 +34,10 @@ RUN ./configure --with-zlib && \
 WORKDIR /usr/local/news
 COPY --chown=news:news etc/* etc/
 COPY --chown=news:news db/* db/
+
+RUN sed -i 's/#\(tlscapath:\)/\1/' etc/inn.conf && \
+    sed -i 's/#\(tlscertfile:\)/\1/' etc/inn.conf && \
+    sed -i 's/#\(tlskeyfile:\)/\1/' etc/inn.conf
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]
