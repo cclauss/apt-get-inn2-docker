@@ -2,20 +2,20 @@
 FROM alpine
 
 RUN apk add --no-cache \
-    tini \
-    shadow \
-    curl \
-    tar \ 
-    build-base \
     bison \
+    build-base \
+    curl \
+    gd-dev \
+    libgd \
+    openssl \
+    openssl-dev \
     perl \
     perl-dev \
     perl-utils \
-    libgd \
-    gd-dev \
-    zlib-dev \
-    openssl-dev \
-    openssl
+    shadow \
+    tar \ 
+    tini \
+    zlib-dev
 
 ENV PERL_MM_USE_DEFAULT=1
 RUN cpan -T GD MIME::Parser
