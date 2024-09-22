@@ -39,4 +39,5 @@ CMD ["-f"]
 
 ENV PATH=/usr/local/news/bin:$PATH
 VOLUME /usr/local/news/db
+USER news
 EXPOSE 119
