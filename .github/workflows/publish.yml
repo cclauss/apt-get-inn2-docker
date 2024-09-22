@@ -5,7 +5,6 @@ on:
     types: [published]
 
 env:
-  NAMEPACE: ${{ github.repository_owner }}
   IMAGE_NAME: inn
 
 jobs:
@@ -40,7 +39,7 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: |
-            ${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
             ghcr.io/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker images
