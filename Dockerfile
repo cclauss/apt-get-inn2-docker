@@ -6,7 +6,7 @@ COPY etc/inn.conf /etc/news/
 COPY etc/inn.conf /etc/
 
 RUN apt-get update -qq && \
-  apt-get install --no-cache \
+  apt-get install \
     bison \
     build-base \
     curl \
