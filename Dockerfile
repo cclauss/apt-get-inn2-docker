@@ -1,35 +1,14 @@
 # TODO: Multistage build
-FROM alpine
+FROM debian:bookworm
 
-RUN apk add --no-cache \
-    bison \
-    build-base \
-    curl \
-    gd-dev \
-    libgd \
-    openssl \
-    openssl-dev \
-    perl \
-    perl-dev \
-    perl-utils \
-    shadow \
-    tar \ 
-    tini \
-    zlib-dev
+RUN apt-get update -qq && \
+  apt-get install --yes tini && \
+  apt-get -o Dpkg::Options::=--force-confold install -y inn2
 
-ENV PERL_MM_USE_DEFAULT=1
-RUN cpan -T GD MIME::Parser
-
-ARG VERSION=2.7.2
-RUN curl -sL https://github.com/InterNetNews/inn/releases/download/${VERSION}/inn-${VERSION}.tar.gz | tar xz
+# ENV PERL_MM_USE_DEFAULT=1
+# RUN cpan -T GD MIME::Parser
 
 RUN usermod -d /usr/local/news news
-
-WORKDIR /inn-${VERSION}
-RUN ./configure --with-zlib --with-openssl && \
-    make && \
-    sed -i 's/#domain:/domain: news.localhost/' site/inn.conf && \
-    make install
 
 WORKDIR /usr/local/news
 COPY --chown=news:news etc/* etc/
@@ -47,3 +26,4 @@ ENV PATH=/usr/local/news/bin:$PATH
 VOLUME /usr/local/news/db
 USER news
 EXPOSE 119
+EXPOSE 563

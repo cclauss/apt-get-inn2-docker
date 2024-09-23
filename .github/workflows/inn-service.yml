@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       inn-service:
-        image: greenbender/inn
+        image: cclauss/inn
         ports:
           - 119:119
           - 563:563
