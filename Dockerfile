@@ -2,7 +2,7 @@
 FROM debian:bookworm
 ENV DEBIAN_FRONTEND=noninteractive
 RUN mkdir -p /etc/news/
-COPY inn.conf /etc/news/
+COPY etc/inn.conf /etc/news/
 
 RUN apt-get update -qq && \
   apt-get install --yes tini && \
