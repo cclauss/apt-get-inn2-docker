@@ -6,22 +6,15 @@ COPY etc/inn.conf /etc/news/
 COPY etc/inn.conf /etc/
 
 RUN apt-get update -qq && \
-  apt-get install \
+  apt-get install --yes \
     bison \
-    build-base \
     curl \
-    gd-dev \
-    libgd \
     openssl \
-    openssl-dev \
     perl \
-    perl-dev \
-    perl-utils \
-    shadow \
+    readline-common \
     tar \ 
-    tini \
-    zlib-dev && \
-  apt-get -o Dpkg::Options::=--force-confold install -y inn2
+    tini
+RUN apt-get -o Dpkg::Options::=--force-confold install -y inn2
 
 # ENV PERL_MM_USE_DEFAULT=1
 # RUN cpan -T GD MIME::Parser
