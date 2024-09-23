@@ -6,7 +6,21 @@ COPY etc/inn.conf /etc/news/
 COPY etc/inn.conf /etc/
 
 RUN apt-get update -qq && \
-  apt-get install --yes tini && \
+  apt-get install --no-cache \
+    bison \
+    build-base \
+    curl \
+    gd-dev \
+    libgd \
+    openssl \
+    openssl-dev \
+    perl \
+    perl-dev \
+    perl-utils \
+    shadow \
+    tar \ 
+    tini \
+    zlib-dev && \
   apt-get -o Dpkg::Options::=--force-confold install -y inn2
 
 # ENV PERL_MM_USE_DEFAULT=1
