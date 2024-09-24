@@ -7,20 +7,28 @@ on:
   workflow_dispatch:
 jobs:
   inn-job:
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
     services:
       inn-service:
-        image: cclauss/inn
+        image: ${{ matrix.service }}
         ports:
           - 119:119
           - 563:563
     steps:
-      - run: pip install --user pynntp
-      - run: ls -la /usr/lib/python3/dist-packages/
-      - run: python -m site
-      - run: python -m site --user-site || true
-      - run: ls -la $(python -m site)
-      - run: ls -la $(python -m site --user-site)
+      - uses: actions/checkout@v4
+        with:
+          repository: greenbender/pynntp
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install --upgrade pip
+      - run: pip install pytest
+      - run: pip install --editable .
+      - run: pytest  # Run the pynntp tests
       - shell: python
         run: |
             import nntp
