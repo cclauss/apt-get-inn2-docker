@@ -15,12 +15,16 @@ jobs:
           - 119:119
           - 563:563
     steps:
-      - run: pip install --user pynntp pytest
-      - run: ls -la $(python -m site --user-site)
-      - run: ls -la $(python -m site --user-site)/nntp || true
-      - run: ls -la $(python -m site --user-site)/pynntp || true
-      - run: pytest $(python -m site --user-site)/nntp || true
-      - run: pytest $(python -m site --user-site)/pynntp
+      - uses: actions/checkout@v4
+        with:
+          repository: greenbender/pynntp
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install --upgrade pip
+      - run: pip install pytest
+      - run: pip install --editable .
+      - run: pytest  # Run the pynntp tests
       - shell: python
         run: |
             import nntp
