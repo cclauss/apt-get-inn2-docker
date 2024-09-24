@@ -20,6 +20,7 @@ COPY --chown=news:news etc/* etc/
 COPY --chown=news:news etc/* etc/news/
 COPY --chown=news:news etc/inn.conf .
 COPY --chown=news:news db/* db/
+COPY --chown=news:news lib/* lib/
 
 RUN apt-get update -qq && \
   apt-get install --yes tini && \
