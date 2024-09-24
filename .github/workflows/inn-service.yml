@@ -16,6 +16,7 @@ jobs:
           - 563:563
     steps:
       - run: pip install --user pynntp
+      - run: ls -la /usr/lib/python3/dist-packages/
       - shell: python
         run: |
             import nntp
