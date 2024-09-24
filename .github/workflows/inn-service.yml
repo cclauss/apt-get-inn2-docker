@@ -17,6 +17,10 @@ jobs:
     steps:
       - run: pip install --user pynntp
       - run: ls -la /usr/lib/python3/dist-packages/
+      - run: python -m site
+      - run: python -m site --user-site || true
+      - run: ls -la $(python -m site)
+      - run: ls -la $(python -m site --user-site)
       - shell: python
         run: |
             import nntp
