@@ -1,40 +1,31 @@
 # TODO: Multistage build
 FROM debian:bookworm
 ENV DEBIAN_FRONTEND=noninteractive
-RUN mkdir -p /etc/news/
-COPY etc/inn.conf /etc/news/
-COPY etc/inn.conf /etc/
 
-RUN apt-get update -qq && \
-  apt-get install --yes \
-    bison \
-    curl \
-    openssl \
-    perl \
-    readline-common \
-    tar \ 
-    tini
-RUN apt-get -o Dpkg::Options::=--force-confold install -y inn2
-
-# ENV PERL_MM_USE_DEFAULT=1
-# RUN cpan -T GD MIME::Parser
-
-RUN usermod -d /usr/local/news news
-
-WORKDIR /usr/local/news
-COPY --chown=news:news etc/* etc/
+RUN usermod -d /etc/news news
+COPY --chown=news:news etc/* etc/news/
 COPY --chown=news:news db/* db/
 
-RUN sed -i 's/#\(tlscapath:\)/\1/' etc/inn.conf && \
-    sed -i 's/#\(tlscertfile:\)/\1/' etc/inn.conf && \
-    sed -i 's/#\(tlskeyfile:\)/\1/' etc/inn.conf
+RUN apt-get update -qq && \
+  apt-get install --yes tini && \
+  apt-get -o Dpkg::Options::=--force-confold install -y inn2 && \
+  sed -i 's/#\(tlscapath:\)/\1/' etc/news/inn.conf && \
+  sed -i 's/#\(tlscertfile:\)/\1/' etc/news/inn.conf && \
+  sed -i 's/#\(tlskeyfile:\)/\1/' etc/news/inn.conf && \
+  touch /etc/key.pem && \
+  chown news:news /etc/key.pem && \
+  mkdir -p /var/run/news && \
+  touch /var/run/news/nnrpd-563.pid && \
+  chown news:news /var/run/news/nnrpd-563.pid && \
+  mkdir -p /run/news && \
+  chown news:news /run/news
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]
 CMD ["-f"]
 
-ENV PATH=/usr/local/news/bin:$PATH
-VOLUME /usr/local/news/db
+ENV PATH=/usr/lib/news/bin:$PATH
+VOLUME /var/lib/news/db
 USER news
 EXPOSE 119
 EXPOSE 563
