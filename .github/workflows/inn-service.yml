@@ -7,10 +7,14 @@ on:
   workflow_dispatch:
 jobs:
   inn-job:
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [cclauss/inn, greenbender/inn]
     runs-on: ubuntu-latest
     services:
       inn-service:
-        image: cclauss/inn
+        image: matrix.${{ matrix.service }}
         ports:
           - 119:119
           - 563:563
