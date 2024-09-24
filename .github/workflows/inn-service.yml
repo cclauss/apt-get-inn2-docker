@@ -15,12 +15,12 @@ jobs:
           - 119:119
           - 563:563
     steps:
-      - run: pip install --user pynntp
-      - run: ls -la /usr/lib/python3/dist-packages/
-      - run: python -m site
-      - run: python -m site --user-site || true
-      - run: ls -la $(python -m site)
+      - run: pip install --user pynntp pytest
       - run: ls -la $(python -m site --user-site)
+      - run: ls -la $(python -m site --user-site)/nntp || true
+      - run: ls -la $(python -m site --user-site)/pynntp || true
+      - run: pytest $(python -m site --user-site)/nntp || true
+      - run: pytest $(python -m site --user-site)/pynntp
       - shell: python
         run: |
             import nntp
