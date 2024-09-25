@@ -12,8 +12,6 @@ RUN apt-get update -qq && \
   sed -i 's/#\(tlscapath:\)/\1/' etc/news/inn.conf && \
   sed -i 's/#\(tlscertfile:\)/\1/' etc/news/inn.conf && \
   sed -i 's/#\(tlskeyfile:\)/\1/' etc/news/inn.conf && \
-  touch /etc/key.pem && \
-  chown news:news /etc/key.pem && \
   mkdir -p /var/run/news && \
   touch /var/run/news/nnrpd-563.pid && \
   chown news:news /var/run/news/nnrpd-563.pid && \
