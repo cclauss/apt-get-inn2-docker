@@ -1,0 +1,21 @@
+#! /bin/sh
+
+## Additional bootscript used add TLS support
+## This script will be automatically run by rc.news to perform start and stop actions
+
+NNRPD=${NEWSBIN}/nnrpd
+NNRPD_TLS_PORT=563
+
+case x"$1" in
+Xstop)
+    # Stop TLS nnrpd if it is running
+    if [ -f ${PATHRUN}/nnrpd-${NNRPD_TLS_PORT}.pid ]; then
+        kill $(cat ${PATHRUN}/nnrpd-${NNRPD_TLS_PORT}.pid)
+        rm -f ${PATHRUN}/nnrpd-${NNRPD_TLS_PORT}.pid
+    fi
+    exit 0
+    ;;
+esac
+
+# Start TLS nnrpd 
+${NNRPD} -D -p ${NNRPD_TLS_PORT} -S
