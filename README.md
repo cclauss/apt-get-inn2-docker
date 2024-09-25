@@ -1,29 +1,22 @@
-INN Docker Image
-================
-Overview
-This Docker image provides an easy-to-use implementation of the InterNetNews (INN) server.
-Usage
-Docker Run
-To run the INN server using Docker, execute the following command:
-Bash
+Run https://github.com/InterNetNews/inn in a localhost Docker container or as a GitHub
+Actions service.  Installs the InterNetNews server using `apt-get install inn2`.
+
+This is a friendly fork of https://github.com/greenbender/inn-docker which is probably
+more appropriate and configurable for your use case.
+```
+docker build -t inn .
 docker run --rm -t -p119:119 -p563:563 inn
-GitHub Actions
-To use this image in a GitHub Action, add the following configuration to your workflow file:
-YAML
-services:
-  inn-service:
-    image: cclauss/inn
-    ports:
-      - 119:119
-      - 563:563
-Ports
-The following ports are exposed by the container:
-119: NNTP port
-563: NNTPS port
-Image Details
-Image Name: cclauss/inn
-Dockerfile: [insert link to Dockerfile if applicable]
-Contributing
-Contributions and issues are welcome! If you'd like to contribute or report a bug, please open an issue or submit a pull request.
-License
-[HERE]
+-- or --
+docker run --rm -t -p119:119 -p563:563 cclauss/inn
+```
+To use this in a GitHub Action please add:
+```yaml
+    services:
+      inn-service:
+        image: cclauss/inn
+        ports:
+          - 119:119
+          - 563:563
+```
+* GitHub: https://github.com/cclauss/apt-get-inn2-docker
+* DockerHub: https://hub.docker.com/r/cclauss/inn/tags
