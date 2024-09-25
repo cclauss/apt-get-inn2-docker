@@ -1,5 +1,5 @@
 # TODO: Multistage build
-FROM debian:bookworm
+FROM debian:bookworm-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN usermod -d /etc/news news
