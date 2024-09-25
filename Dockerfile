@@ -18,11 +18,19 @@ RUN apt-get update -qq && \
   touch /var/run/news/nnrpd-563.pid && \
   chown news:news /var/run/news/nnrpd-563.pid && \
   mkdir -p /run/news && \
-  chown news:news /run/news
+  chown news:news /run/news && \
+  mkdir -p /var/www/inn && \
+  chown news:news /var/www/inn && \  
+  echo "Startup" > /var/www/inn/inn_status.html && \
+  chown news:news /var/www/inn/inn_status.html
+  # cp /usr/share/doc/inn2/examples/filter/filter_innd.py /etc/news/filter
+  # rm /etc/news/filter/filter_innd.py && \
+  # ls -l /etc/news/filter/*.py
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/docker-entrypoint.sh"]
 CMD ["-f"]
+# CMD ["bash"]
 
 ENV PATH=/usr/lib/news/bin:$PATH
 VOLUME /var/lib/news/db
