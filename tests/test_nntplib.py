@@ -9,7 +9,7 @@ from sys import version_info
 
 import pytest
 
-@pytest.mark.xfail(condition=version_info >= (3, 13) reason="nntplib", raises=ImportError, strict=True)
+@pytest.mark.xfail(condition=version_info >= (3, 13), reason="nntplib", raises=ImportError, strict=True)
 def test_nntplib(hostname: str = "localhost"):
     import nntplib  # Removed from the Standard Library in Python 3.13.
 
