@@ -5,18 +5,14 @@ Test interacting with the local INN server using the Python <= 3.12 nntplib modu
 """
 
 import pathlib
+from sys import version_info
 
-def test_always_pass():
-    """Allow pytest to find at least one passing pytest on Python >= 3.13."""
+import pytest
 
-try:
-    import nntplib  # Removed from the Standard Library in Python 3.13.
-except ImportError:
-    import sys
-
-    sys.exit()
-
+@pytest.mark.xfail(condition=version_info >= (3, 13) reason="nntplib", raises=ImportError, strict=True)
 def test_nntplib(hostname: str = "localhost"):
+    import nntplib  # Removed from the Standard Library in Python 3.13.
+
     with nntplib.NNTP(hostname, readermode=True) as nntp_server:
         print(f"{nntp_server = }")
         # print(f"{nntp_server.starttls() = }")  # nntplib.NNTPTemporaryError: 401 MODE-READER
