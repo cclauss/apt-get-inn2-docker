@@ -5,6 +5,10 @@ Test interacting with the local INN server using the Python <= 3.12 nntplib modu
 """
 
 import pathlib
+
+def test_always_pass():
+    """Allow pytest to find at least one passing pytest on Python >= 3.13."""
+
 try:
     import nntplib  # Removed from the Standard Library in Python 3.13.
 except ImportError:
