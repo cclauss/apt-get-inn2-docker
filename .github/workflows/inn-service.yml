@@ -19,19 +19,19 @@ jobs:
           - 119:119
           - 563:563
     steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: greenbender/pynntp
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - run: pip install --upgrade pip
       - run: pip install pytest
+      - run: pytest  # Run tests/test_nntplib.py
+      - uses: actions/checkout@v4
+        with:
+          repository: greenbender/pynntp
       - run: pip install --editable .
       - run: pytest  # Run the pynntp tests
       - shell: python
         run: |
             import nntp
-            nntp_client = nntp.NNTPClient("localhost")
-            print(f"{tuple(nntp_client.list_newsgroups()) = }")
-            nntp_client.quit()
+            with nntp.NNTPClient("localhost") as nntp_client:
+                print(f"{tuple(nntp_client.list_newsgroups()) = }")
