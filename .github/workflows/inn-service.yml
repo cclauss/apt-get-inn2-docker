@@ -19,14 +19,14 @@ jobs:
           - 119:119
           - 563:563
     steps:
-      # - uses: actions/checkout@v5
+      # - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
       - run: pip install --upgrade pip
       - run: pip install pytest
       # - run: pytest  # Run tests/test_nntplib.py
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           repository: greenbender/pynntp
       - run: pip install --editable .
